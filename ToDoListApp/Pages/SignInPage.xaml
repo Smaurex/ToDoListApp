@@ -4,10 +4,52 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="SignInPage">
-    <VerticalStackLayout>
-        <Label
-            HorizontalOptions="Center"
-            Text="Welcome to sign in page!"
-            VerticalOptions="Center" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="30*,70*" RowSpacing="50">
+        <Image
+            Grid.Row="0"
+            Aspect="AspectFit"
+            Source="default_pfp_yellow.png" />
+        <VerticalStackLayout Grid.Row="1" Spacing="10">
+            <Border
+                HeightRequest="50"
+                Stroke="Gray"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="2"
+                WidthRequest="250">
+                <Entry
+                    x:Name="Email"
+                    HeightRequest="65"
+                    Placeholder="Email Address"
+                    WidthRequest="250" />
+            </Border>
+
+            <Border
+                HeightRequest="50"
+                Stroke="Gray"
+                StrokeShape="RoundRectangle 10"
+                StrokeThickness="2"
+                WidthRequest="250">
+                <Entry
+                    x:Name="Password"
+                    HeightRequest="65"
+                    IsPassword="True"
+                    Placeholder="Password"
+                    WidthRequest="250" />
+            </Border>
+
+            <Button
+                x:Name="SignInButton"
+                Clicked="SignInButton_Clicked"
+                HeightRequest="50"
+                Text="Sign In"
+                WidthRequest="250" />
+
+            <Button
+                x:Name="SignUpButton"
+                Clicked="SignUpButton_Clicked"
+                HeightRequest="50"
+                Text="Sign Up"
+                WidthRequest="250" />
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

@@ -6,10 +6,19 @@
     xmlns:local="clr-namespace:ToDoListApp">
     <Application.Resources>
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+
+            <!--CUSTOM STYLES
+            <Style x:Key="EntrySyle1" TargetType="Entry">
+                <Setter Property="Border"
+            </Style>-->
+
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
