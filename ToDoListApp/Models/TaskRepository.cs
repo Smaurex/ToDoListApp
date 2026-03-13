@@ -1,10 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-
-namespace ToDoList.Models
+namespace ToDoListApp.Models
 {
     public static class TaskRepository
     {
@@ -18,7 +16,7 @@ namespace ToDoList.Models
 
 
         public static List<TaskItem> GetTask() => taskList;
-    
+
         public static TaskItem GetTaskById(int taskId)
         {
             var taskSelected = taskList.FirstOrDefault(t => t.TaskId == taskId);

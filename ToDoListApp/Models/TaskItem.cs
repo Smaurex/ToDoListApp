@@ -1,8 +1,13 @@
-﻿namespace ToDoList.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-public class TaskItem
+namespace ToDoListApp.Models
 {
-    public int TaskId { get; set; }
-    public string Title { get; set; }
-    public string Detail { get; set; }
+    public class TaskItem
+    {
+        public int TaskId { get; set; }
+        public string Title { get; set; }
+        public string Detail { get; set; }
+    }
 }
