@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+//This class contains all the functions and lists
 namespace ToDoListApp.Models
 {
     public static class TaskRepository

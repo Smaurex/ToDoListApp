@@ -7,9 +7,19 @@
     xmlns:pages="clr-namespace:ToDoListApp.Pages"
     Title="ToDoListApp">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate pages:SignInPage}"
-        Route="SignInPage" />
+    <TabBar>
+        <ShellContent
+            Title="To Do"
+            ContentTemplate="{DataTemplate pages:ToDoListPage}"
+            Route="ToDoListPage" />
+        <ShellContent
+            Title="Completed"
+            ContentTemplate="{DataTemplate pages:CompletedToDoPage}"
+            Route="CompletedToDoPage" />
+        <ShellContent
+            Title="Profile"
+            ContentTemplate="{DataTemplate pages:ProfilePage}"
+            Route="ProfilePage" />
+    </TabBar>
 
 </Shell>

@@ -9,7 +9,7 @@ public partial class SignInPage : ContentPage
 
     private void SignInButton_Clicked(object sender, EventArgs e)
     {
-        Navigation.PushAsync(new ToDoListPage());
+        Application.Current.MainPage = new AppShell();
     }
 
     private void SignUpButton_Clicked(object sender, EventArgs e)

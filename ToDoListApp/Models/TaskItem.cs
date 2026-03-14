@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+//This is the class for each ITEMS in the list
 namespace ToDoListApp.Models
 {
     public class TaskItem

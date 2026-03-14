@@ -6,4 +6,9 @@ public partial class AddToDoPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private void addBtn_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }
