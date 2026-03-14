@@ -9,6 +9,7 @@ public partial class SignInPage : ContentPage
 
     private void SignInButton_Clicked(object sender, EventArgs e)
     {
+        //opens appshell and sets it as the main page of the app
         Application.Current.MainPage = new AppShell();
     }
 

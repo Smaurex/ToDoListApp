@@ -4,83 +4,115 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="ToDoListPage">
-    <Grid ColumnDefinitions="*,*,*,*" RowDefinitions=" 10*, 90*">
+    <Grid
+        ColumnDefinitions="*,*,*,*"
+        RowDefinitions=" 10*, 90*"
+        RowSpacing="15">
 
         <!--  THIS IS THE MAIN PAGE, it displays the to do list  -->
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            Aspect="AspectFit"
+            Source="default_pfp_yellow.png" />
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            FontSize="30"
+            HorizontalOptions="Center"
+            Text="Hi!"
+            VerticalOptions="Center" />
+        <Label
+            Grid.Row="0"
+            Grid.Column="2"
+            FontSize="30"
+            Text="User"
+            VerticalOptions="Center" />
+
         <Button
             x:Name="goToAddToDoPage"
             Grid.Row="0"
-            Grid.Column="2"
-            Grid.ColumnSpan="2"
-            BackgroundColor="LightGray"
+            Grid.Column="3"
+            BackgroundColor="white"
             BorderColor="black"
             BorderWidth="3"
             Clicked="goToAddToDoPage_Clicked"
             CornerRadius="30"
             FontSize="20"
             HeightRequest="50"
-            Text="+ NEW"
+            Text="+"
             TextColor="Black"
-            WidthRequest="150" />
+            WidthRequest="50" />
         <!--  this is the Listview that is data bound to the observable collection  -->
         <ListView
             x:Name="taskView"
             Grid.Row="1"
             Grid.ColumnSpan="4"
-            BackgroundColor="LightGray"
+            BackgroundColor="white"
             ItemSelected="taskView_ItemSelected"
             RowHeight="100"
             SeparatorColor="Black">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <Border
+                            Stroke="orange"
+                            StrokeShape="RoundRectangle 5"
+                            StrokeThickness="2">
+                            <Grid
+                                Margin="0,0,0,10"
+                                ColumnDefinitions="*,Auto,Auto"
+                                RowDefinitions="*,*">
 
-                        <Grid
-                            Padding="10"
-                            ColumnDefinitions="*,Auto,Auto"
-                            RowDefinitions="Auto,Auto">
+                                <BoxView
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="3"
+                                    BackgroundColor="Orange" />
+                                <!--  Task Title  -->
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    FontAttributes="Bold"
+                                    Text="{Binding Title}"
+                                    TextColor="white" 
+                                    FontSize="20"/>
 
-                            <!--  Task Title  -->
-                            <Label
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                FontAttributes="Bold"
-                                Text="{Binding Title}"
-                                TextColor="Black" />
+                                <!--  Task Detail  -->
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Text="{Binding Detail}"
+                                    TextColor="Gray"
+                                    FontSize="15"/>
+                                <!--  Delete Button  -->
 
-                            <!--  Task Detail  -->
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Text="{Binding Detail}"
-                                TextColor="Gray" />
-
-                            <!--  Complete Button  -->
-                            <Button
-                                Grid.Row="0"
-                                Grid.RowSpan="2"
-                                Grid.Column="1"
-                                Margin="5"
-                                BackgroundColor="Green"
-                                Clicked="Complete_Clicked"
-                                CommandParameter="{Binding .}"
-                                Text="Complete"
-                                TextColor="White" />
-
-                            <!--  Delete Button  -->
-                            <Button
-                                x:Name="DeleteItemButton"
-                                Grid.Row="0"
-                                Grid.RowSpan="2"
-                                Grid.Column="2"
-                                Margin="5"
-                                BackgroundColor="Red"
-                                Clicked="Delete_Clicked"
-                                CommandParameter="{Binding .}"
-                                Text="Delete"
-                                TextColor="White" />
-
-                        </Grid>
+                                <Button
+                                    x:Name="DeleteItemButton"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    BackgroundColor="transparent"
+                                    Clicked="Delete_Clicked"
+                                    CommandParameter="{Binding .}"
+                                    HeightRequest="55"
+                                    ImageSource="delete_icon_2.png"
+                                    TextColor="White"
+                                    WidthRequest="55" />
+                                <!--  Complete Button  -->
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="2"
+                                    Margin="5"
+                                    BackgroundColor="Transparent"
+                                    Clicked="Complete_Clicked"
+                                    CommandParameter="{Binding .}"
+                                    HeightRequest="55"
+                                    ImageSource="check_icon_2.png"
+                                    WidthRequest="55"/>
+                            </Grid>
+                        </Border>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

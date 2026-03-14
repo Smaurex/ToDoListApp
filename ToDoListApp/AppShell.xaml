@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:ToDoListApp"
     xmlns:pages="clr-namespace:ToDoListApp.Pages"
     Title="ToDoListApp">
-
+    <!--  navigation page of the app  -->
     <TabBar>
         <ShellContent
             Title="To Do"

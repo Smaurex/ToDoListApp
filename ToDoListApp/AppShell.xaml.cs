@@ -4,6 +4,7 @@
     {
         public AppShell()
         {
+            //responsible for registering the routes for the app, so that we can navigate to different pages using the route names
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(Pages.SignInPage), typeof(Pages.SignInPage));

@@ -5,35 +5,64 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="AddToDoPage">
     <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="*, 100, 3*, 100">
-
-        <Image
+        <BoxView
             Grid.Row="0"
             Grid.ColumnSpan="4"
-            Aspect="AspectFill"
-            Source="justdoit.png" />
+            BackgroundColor="Orange" />
+        <Image
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Aspect="AspectFit"
+            Source="sleeping_cat_1.png" />
+        <Grid
+            Grid.Row="0"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            RowDefinitions="*,*">
 
-        <Entry
-            x:Name="Title"
+            <Label
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                FontSize="35"
+                Text="What's on your mind?"
+                TextColor="white"
+                VerticalOptions="Center" />
+        </Grid>
+
+        <Border
             Grid.Row="1"
             Grid.ColumnSpan="4"
-            Margin="20"
-            BackgroundColor="LightGray"
-            FontSize="36"
-            Placeholder="Task Title"
-            PlaceholderColor="Black"
-            TextColor="black" />
-
-        <Editor
-            x:Name="Detail"
+            HeightRequest="60"
+            Stroke="gray"
+            StrokeThickness="2"
+            WidthRequest="350">
+            <Entry
+                x:Name="Title"
+                Grid.Row="1"
+                Grid.ColumnSpan="4"
+                BackgroundColor="white"
+                FontSize="30"
+                Placeholder="Task Title"
+                PlaceholderColor="Black"
+                TextColor="black" />
+        </Border>
+        <Border
             Grid.Row="2"
             Grid.ColumnSpan="4"
-            Margin="20"
-            BackgroundColor="LightGray"
-            FontSize="15"
-            Placeholder="Task Details..."
-            PlaceholderColor="Black"
-            TextColor="black" />
-
+            HeightRequest="400"
+            Stroke="gray"
+            StrokeThickness="2"
+            WidthRequest="350">
+            <Editor
+                x:Name="Detail"
+                Grid.Row="2"
+                Grid.ColumnSpan="4"
+                BackgroundColor="white"
+                FontSize="15"
+                Placeholder="Task Details..."
+                PlaceholderColor="Black"
+                TextColor="black" />
+        </Border>
         <Button
             x:Name="addBtn"
             Grid.Row="3"
