@@ -1,3 +1,5 @@
+using ToDoListApp.Models;
+
 namespace ToDoListApp.Pages;
 
 public partial class AddToDoPage : ContentPage
@@ -7,8 +9,15 @@ public partial class AddToDoPage : ContentPage
 		InitializeComponent();
 	}
 
-    private void addBtn_Clicked(object sender, EventArgs e)
+    private async void addBtn_Clicked(object sender, EventArgs e)
     {
+        TaskRepository.AddTask(new TaskItem
+        {
+            TaskId = TaskRepository.NewId(),
+            Title = Title.Text,
+            Detail = Detail.Text
+        });
 
+        await Navigation.PopAsync();
     }
 }

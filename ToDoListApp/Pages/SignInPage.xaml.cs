@@ -13,8 +13,8 @@ public partial class SignInPage : ContentPage
         Application.Current.MainPage = new AppShell();
     }
 
-    private void SignUpButton_Clicked(object sender, EventArgs e)
+    private async void SignUpButton_Clicked(object sender, EventArgs e)
     {
-        Navigation.PushAsync(new SignUpPage());
+        await Navigation.PushAsync(new SignUpPage());
     }
 }

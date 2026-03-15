@@ -14,8 +14,6 @@ namespace ToDoListApp.Models
             new TaskItem { TaskId = 3, Title = "Finish project", Detail = "Due next week" }
 
         };
-
-
         public static List<TaskItem> GetTask() => taskList;
 
         public static TaskItem GetTaskById(int taskId)
@@ -31,6 +29,11 @@ namespace ToDoListApp.Models
                 };
             }
             return null;
+        }
+
+        public static int NewId()
+        {
+            return taskList.Any() ? taskList.Max(x => x.TaskId) + 1 : 1;
         }
 
         public static void AddTask(TaskItem newTaskPopulated)
@@ -59,9 +62,6 @@ namespace ToDoListApp.Models
             }
         }
 
-        public static int NewId()
-        {
-            return taskList.Any() ? taskList.Max(x => x.TaskId) + 1 : 1;
-        }
+        
     }
 }

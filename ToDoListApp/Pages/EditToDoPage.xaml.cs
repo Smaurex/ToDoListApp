@@ -6,14 +6,35 @@ public partial class EditToDoPage : ContentPage
 {
 
     private TaskItem _task;
-    public EditToDoPage(TaskItem task)
+    public EditToDoPage(TaskItem selectedTask)
 	{
        
         InitializeComponent();
 
-        _task = task;
+        _task = selectedTask;
 
-       //taskTitleEntry.Text = _task.Title;
-       //taskDetailEntry.Text = _task.Detail;
+       Title.Text = _task.Title;
+       Detail.Text = _task.Detail;
     }
+
+    private async void Update_Clicked(object sender, EventArgs e)
+    {
+        _task.Title = Title.Text;
+        _task.Detail = Detail.Text;
+
+        TaskRepository.UpdateTask(_task.TaskId, _task);
+        await Navigation.PopAsync();
+    }
+    private void Complete_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private async void Delete_Clicked(object sender, EventArgs e)
+    {
+        TaskRepository.DeleteTask(_task.TaskId);
+
+        await Navigation.PopAsync();
+    }
+
 }

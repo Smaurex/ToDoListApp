@@ -25,19 +25,19 @@ public partial class ToDoListPage : ContentPage
     }
 
     //Navigate to the AddToDoPage when the user clicks the "Add Task" button
-    private void goToAddToDoPage_Clicked(object sender, EventArgs e)
+    private async void goToAddToDoPage_Clicked(object sender, EventArgs e)
     {
-        Navigation.PushAsync(new AddToDoPage());
+        await Navigation.PushAsync(new AddToDoPage());
     }
 
     //Navigate to the EditToDoPage when the user clicks on a task in the list view
-    private void taskView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    private async void taskView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         if (e.SelectedItem != null)
         {
             TaskItem selectedTask = e.SelectedItem as TaskItem;
 
-            Navigation.PushAsync(new EditToDoPage(selectedTask));
+            await Navigation.PushAsync(new EditToDoPage(selectedTask));
 
             taskView.SelectedItem = null;
         }
