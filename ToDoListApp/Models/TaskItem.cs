@@ -9,5 +9,8 @@ namespace ToDoListApp.Models
         public int TaskId { get; set; }
         public string Title { get; set; }
         public string Detail { get; set; }
+
+        // might need a boolean for the completed bai
+        public Boolean isComplete { get; set; } = false;
     }
 }

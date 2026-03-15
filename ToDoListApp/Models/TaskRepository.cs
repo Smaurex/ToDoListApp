@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Windows.UI.Notifications;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 //This class contains all the functions and lists
 namespace ToDoListApp.Models
@@ -62,6 +65,27 @@ namespace ToDoListApp.Models
             }
         }
 
-        
+        public static async Task CompleteTask(int taskId)
+        {
+
+            
+            var taskCompleted = taskList.FirstOrDefault(t => t.TaskId == taskId);
+            if (taskCompleted != null)
+            {
+                // if not complete, set to complete, otherwise set it to incomplete (reverting typeshit);
+                if (taskCompleted.isComplete == false)
+                {
+                    taskCompleted.isComplete = true;
+                    // toast notification 
+                    var notif = Toast.Make("Task marked as Complete!", ToastDuration.Short, 12);
+                    await notif.Show();
+                } else
+                {
+                    taskCompleted.isComplete = false;
+                    var notif = Toast.Make("Set Task as Unfinished", ToastDuration.Short, 12);
+                    await notif.Show();
+                }
+            }
+        }
     }
 }

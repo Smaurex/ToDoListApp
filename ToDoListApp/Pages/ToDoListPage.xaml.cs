@@ -51,9 +51,16 @@ public partial class ToDoListPage : ContentPage
         TaskRepository.DeleteTask(task.TaskId);
         loadTasks();
     }
+
+
     //Mark the task as complete when the user clicks the "Complete" button
     private void Complete_Clicked(object sender, EventArgs e)
     {
-        
+        // gets response as complete 
+        Button c_button = sender as Button;
+        TaskItem c_task = c_button.CommandParameter as TaskItem;
+
+        TaskRepository.CompleteTask(c_task.TaskId);
+        loadTasks();
     }
 }
