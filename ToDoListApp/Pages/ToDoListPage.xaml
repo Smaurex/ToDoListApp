@@ -24,6 +24,7 @@
             Text="Hi!"
             VerticalOptions="Center" />
         <Label
+            x:Name="username"
             Grid.Row="0"
             Grid.Column="2"
             FontSize="30"

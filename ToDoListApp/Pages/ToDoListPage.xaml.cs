@@ -8,13 +8,18 @@ public partial class ToDoListPage : ContentPage
 	public ToDoListPage()
 	{
 		InitializeComponent();
-	}
+    }
 
     //this runs every time the user looks at the page, so it will update the list every time
     protected override void OnAppearing()
     {
         base.OnAppearing();
         loadTasks();
+
+        if (Session.CurrentUser != null)
+        {
+            username.Text = Session.CurrentUser.Username;
+        }
     }
 
     //this function will load the tasks from the TaskRepository and display them in the list view
