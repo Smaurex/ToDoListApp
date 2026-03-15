@@ -1,3 +1,5 @@
+using ToDoListApp.Models;
+
 namespace ToDoListApp.Pages;
 
 public partial class SignInPage : ContentPage
@@ -7,9 +9,27 @@ public partial class SignInPage : ContentPage
 		InitializeComponent();
 	}
 
-    private void SignInButton_Clicked(object sender, EventArgs e)
+    private async void SignInButton_Clicked(object sender, EventArgs e)
     {
-        //opens appshell and sets it as the main page of the app
+        if (string.IsNullOrWhiteSpace(Email.Text) ||
+        string.IsNullOrWhiteSpace(Password.Text))
+        {
+            await DisplayAlert("Error", "Please enter email and password", "OK");
+            return;
+        }
+
+        var user = UserRepository.GetUserByEmail(Email.Text);
+
+        if (user == null || user.Password != Password.Text)
+        {
+            await DisplayAlert("Error", "Invalid email or password", "OK");
+            return;
+        }
+
+        // store session
+        Session.CurrentUser = user;
+
+        // open main app
         Application.Current.MainPage = new AppShell();
     }
 
