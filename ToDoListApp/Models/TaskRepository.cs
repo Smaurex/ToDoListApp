@@ -17,7 +17,21 @@ namespace ToDoListApp.Models
 
         };
         public static List<TaskItem> GetTask() => taskList;
-
+        
+        // lol for loop, ts will be used completed todo page. 
+        public static List<TaskItem> GetCompletedTask()
+        {            
+            List<TaskItem> completed = new List<TaskItem>();
+            foreach (var task in taskList)
+            {
+                if (task.isComplete)
+                {
+                    completed.Add(task);
+                }
+            }
+            return completed;
+        }
+        
         public static TaskItem GetTaskById(int taskId)
         {
             var taskSelected = taskList.FirstOrDefault(t => t.TaskId == taskId);
@@ -52,6 +66,7 @@ namespace ToDoListApp.Models
             {
                 taskToUpdate.Title = taskPopulated.Title;
                 taskToUpdate.Detail = taskPopulated.Detail;
+                taskToUpdate.isComplete = taskPopulated.isComplete; // ✅ add this
             }
         }
 
