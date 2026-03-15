@@ -67,8 +67,6 @@ namespace ToDoListApp.Models
 
         public static async Task CompleteTask(int taskId)
         {
-
-            
             var taskCompleted = taskList.FirstOrDefault(t => t.TaskId == taskId);
             if (taskCompleted != null)
             {
