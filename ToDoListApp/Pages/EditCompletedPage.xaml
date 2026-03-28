@@ -1,12 +1,98 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ToDoListApp.Pages.EditCompletedPage"
-             Title="Edit Completed">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+
+x:Class="ToDoListApp.Pages.EditCompletedPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Edit ToDo">
+    <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="150, 100, auto, auto">
+        <BoxView
+            Grid.Row="0"
+            Grid.ColumnSpan="4"
+            BackgroundColor="Orange" />
+        <Image
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Aspect="AspectFit"
+            Source="sleeping_cat_1.png" />
+        <Grid
+            Grid.Row="0"
+            Grid.Column="2"
+            Grid.ColumnSpan="2"
+            RowDefinitions="*,*">
+
+            <Label
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                FontSize="35"
+                Text="Change of Plans?"
+                TextColor="white"
+                VerticalOptions="Center" />
+        </Grid>
+
+        <Border
+            Grid.Row="1"
+            Grid.ColumnSpan="4"
+            HeightRequest="60"
+            Stroke="gray"
+            StrokeThickness="2"
+            WidthRequest="350">
+            <Entry
+                x:Name="Title"
+                Grid.Row="1"
+                Grid.ColumnSpan="4"
+                BackgroundColor="white"
+                FontSize="30"
+                Placeholder="Task Title"
+                PlaceholderColor="Black"
+                TextColor="black" />
+        </Border>
+        <Border
+            Grid.Row="2"
+            Grid.ColumnSpan="4"
+            HeightRequest="300"
+            Stroke="gray"
+            StrokeThickness="2"
+            WidthRequest="350">
+            <Editor
+                x:Name="Detail"
+                Grid.Row="2"
+                Grid.ColumnSpan="4"
+                BackgroundColor="white"
+                FontSize="15"
+                Placeholder="Task Details..."
+                PlaceholderColor="Black"
+                TextColor="black" />
+        </Border>
+        <VerticalStackLayout
+            Grid.Row="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Spacing="10"
+            Margin="0, 10,0,0">
+            
+            <Button
+                x:Name="Update"
+                Clicked="Update_Clicked"
+                FontSize="15"
+                HeightRequest="40"
+                Text="Update" />
+            <Button
+                x:Name="Incomplete"
+                Clicked="Incomplete_Clicked"
+                FontSize="15"
+                HeightRequest="40"
+                Text="Mark as Incomplete"
+                BackgroundColor="LightBlue"
+                TextColor="Black"/>
+            <Button
+                x:Name="Delete"
+                Clicked="Delete_Clicked"
+                FontSize="15"
+                HeightRequest="40"
+                Text="Delete" 
+                BackgroundColor="PaleVioletRed"
+                TextColor="Black"/>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

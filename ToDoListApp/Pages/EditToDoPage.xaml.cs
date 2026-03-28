@@ -27,7 +27,9 @@ public partial class EditToDoPage : ContentPage
     }
     private void Complete_Clicked(object sender, EventArgs e)
     {
-
+        _task.isComplete = true;
+        TaskRepository.UpdateTask(_task.TaskId, _task);
+        Navigation.PopAsync();
     }
 
     private async void Delete_Clicked(object sender, EventArgs e)

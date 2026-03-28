@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 //This class contains all the functions and lists
 namespace ToDoListApp.Models
@@ -15,7 +17,21 @@ namespace ToDoListApp.Models
 
         };
         public static List<TaskItem> GetTask() => taskList;
-
+        
+        // lol for loop, ts will be used completed todo page. 
+        public static List<TaskItem> GetCompletedTask()
+        {            
+            List<TaskItem> completed = new List<TaskItem>();
+            foreach (var task in taskList)
+            {
+                if (task.isComplete)
+                {
+                    completed.Add(task);
+                }
+            }
+            return completed;
+        }
+        
         public static TaskItem GetTaskById(int taskId)
         {
             var taskSelected = taskList.FirstOrDefault(t => t.TaskId == taskId);
@@ -50,6 +66,7 @@ namespace ToDoListApp.Models
             {
                 taskToUpdate.Title = taskPopulated.Title;
                 taskToUpdate.Detail = taskPopulated.Detail;
+                taskToUpdate.isComplete = taskPopulated.isComplete; // ✅ add this
             }
         }
 
@@ -62,6 +79,25 @@ namespace ToDoListApp.Models
             }
         }
 
-        
+        public static async Task CompleteTask(int taskId)
+        {
+            var taskCompleted = taskList.FirstOrDefault(t => t.TaskId == taskId);
+            if (taskCompleted != null)
+            {
+                // if not complete, set to complete, otherwise set it to incomplete (reverting typeshit);
+                if (taskCompleted.isComplete == false)
+                {
+                    taskCompleted.isComplete = true;
+                    // toast notification 
+                    var notif = Toast.Make("Task marked as Complete!", ToastDuration.Short, 12);
+                    await notif.Show();
+                } else
+                {
+                    taskCompleted.isComplete = false;
+                    var notif = Toast.Make("Set Task as Unfinished", ToastDuration.Short, 12);
+                    await notif.Show();
+                }
+            }
+        }
     }
 }

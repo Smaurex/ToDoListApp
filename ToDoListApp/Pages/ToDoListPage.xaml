@@ -3,7 +3,13 @@
     x:Class="ToDoListApp.Pages.ToDoListPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="ToDo">
+    Title="ToDo"
+    xmlns:converters="clr-namespace:ToDoListApp.Converters">
+
+    <ContentPage.Resources>
+        <converters:TaskColorConverter x:Key="TaskColorConverter" />
+    </ContentPage.Resources>
+
     <Grid
         ColumnDefinitions="*,*,*,*"
         RowDefinitions=" 10*, 90*"
@@ -62,7 +68,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <Border
-                            Stroke="orange"
+                            Stroke="{Binding isComplete, Converter={StaticResource TaskColorConverter}}"
                             StrokeShape="RoundRectangle 5"
                             StrokeThickness="2">
                             <Grid
@@ -73,7 +79,7 @@
                                 <BoxView
                                     Grid.Row="0"
                                     Grid.ColumnSpan="3"
-                                    BackgroundColor="Orange" />
+                                    BackgroundColor="{Binding isComplete, Converter={StaticResource TaskColorConverter}}" />
                                 <!--  Task Title  -->
                                 <Label
                                     Grid.Row="0"
@@ -126,3 +132,4 @@
 
     </Grid>
 </ContentPage>
+    
