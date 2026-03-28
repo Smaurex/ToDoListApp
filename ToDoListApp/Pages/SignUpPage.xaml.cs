@@ -1,4 +1,8 @@
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using ToDoListApp.Models;
+using ToDoListApp.Services;
 
 namespace ToDoListApp.Pages;
 
@@ -12,9 +16,9 @@ public partial class SignUpPage : ContentPage
     private async void SignUpButton_Clicked(object sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(Username.Text) ||
-         string.IsNullOrWhiteSpace(Email.Text) ||
-         string.IsNullOrWhiteSpace(Password.Text) ||
-         string.IsNullOrWhiteSpace(ConfirmPassword.Text))
+            string.IsNullOrWhiteSpace(Email.Text) ||
+            string.IsNullOrWhiteSpace(Password.Text) ||
+            string.IsNullOrWhiteSpace(ConfirmPassword.Text))
         {
             await DisplayAlert("Error", "All fields are required", "OK");
             return;
@@ -26,26 +30,30 @@ public partial class SignUpPage : ContentPage
             return;
         }
 
-        var existingUser = UserRepository.GetUserByEmail(Email.Text);
+        var api = new ApiService();
 
-        if (existingUser != null)
+        // NOTE: Your API requires first_name and last_name
+        var response = await api.SignUp(
+            fname.Text,      // fname
+            lname.Text,             // lname (temporary)
+            Email.Text,
+            Password.Text,
+            ConfirmPassword.Text
+        );
+
+        var json = JsonDocument.Parse(response);
+        int status = json.RootElement.GetProperty("status").GetInt32();
+        string message = json.RootElement.GetProperty("message").GetString();
+
+        if (status == 200)
         {
-            await DisplayAlert("Error", "Email already registered", "OK");
-            return;
+            await DisplayAlert("Success", message, "OK");
+            await Navigation.PopAsync();
         }
-
-        User newUser = new User
+        else
         {
-            Username = Username.Text,
-            Email = Email.Text,
-            Password = Password.Text
-        };
-
-        UserRepository.AddUser(newUser);
-
-        await DisplayAlert("Success", "Account created!", "OK");
-
-        await Navigation.PopAsync(); // return to SignIn
+            await DisplayAlert("Error", message, "OK");
+        }
     }
 
     private async void SignIpButton_Clicked(object sender, EventArgs e)
