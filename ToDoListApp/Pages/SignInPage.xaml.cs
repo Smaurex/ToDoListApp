@@ -15,38 +15,35 @@ public partial class SignInPage : ContentPage
 
     private async void SignInButton_Clicked(object sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(Email.Text) ||
-            string.IsNullOrWhiteSpace(Password.Text))
+        try
         {
-            await DisplayAlert("Error", "Please enter email and password", "OK");
-            return;
-        }
-
-        var api = new ApiService();
-        var response = await api.SignIn(Email.Text, Password.Text);
-
-        var json = JsonDocument.Parse(response);
-        int status = json.RootElement.GetProperty("status").GetInt32();
-
-        if (status == 200)
-        {
-            await DisplayAlert("Success", "Login successful", "OK");
-
-            // OPTIONAL: store user data
-            var data = json.RootElement.GetProperty("data");
-
-            Session.CurrentUser = new User
+            if (string.IsNullOrWhiteSpace(Email.Text) ||
+                string.IsNullOrWhiteSpace(Password.Text))
             {
-                Username = data.GetProperty("fname").GetString(),
-                Email = data.GetProperty("email").GetString()
-            };
+                await DisplayAlert("Error", "Please enter email and password", "OK");
+                return;
+            }
 
-            Application.Current.MainPage = new AppShell();
+            var api = new ApiService();
+            var response = await api.SignIn(Email.Text, Password.Text);
+
+            var json = JsonDocument.Parse(response);
+            int status = json.RootElement.GetProperty("status").GetInt32();
+
+            if (status == 200)
+            {
+                await DisplayAlert("Success", "Login successful", "OK");
+                Application.Current.MainPage = new AppShell();
+            }
+            else
+            {
+                string message = json.RootElement.GetProperty("message").GetString();
+                await DisplayAlert("Error", message, "OK");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            string message = json.RootElement.GetProperty("message").GetString();
-            await DisplayAlert("Error", message, "OK");
+            await DisplayAlert("Error", ex.Message, "OK");
         }
     }
 

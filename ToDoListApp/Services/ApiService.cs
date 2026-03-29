@@ -11,7 +11,12 @@ namespace ToDoListApp.Services
 
         public ApiService()
         {
-            _httpClient = new HttpClient();
+            var handler = new HttpClientHandler();
+
+            _httpClient = new HttpClient(handler)
+            {
+                Timeout = TimeSpan.FromSeconds(15) // ✅ Prevents infinite hang
+            };
         }
 
         // SIGN UP

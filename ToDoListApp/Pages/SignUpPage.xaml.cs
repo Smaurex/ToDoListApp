@@ -15,7 +15,8 @@ public partial class SignUpPage : ContentPage
 
     private async void SignUpButton_Clicked(object sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(Username.Text) ||
+        if (string.IsNullOrWhiteSpace(fname.Text) || 
+            string.IsNullOrWhiteSpace(lname.Text) ||
             string.IsNullOrWhiteSpace(Email.Text) ||
             string.IsNullOrWhiteSpace(Password.Text) ||
             string.IsNullOrWhiteSpace(ConfirmPassword.Text))
@@ -29,34 +30,41 @@ public partial class SignUpPage : ContentPage
             await DisplayAlert("Error", "Passwords do not match", "OK");
             return;
         }
-
-        var api = new ApiService();
-
-        // NOTE: Your API requires first_name and last_name
-        var response = await api.SignUp(
-            fname.Text,      // fname
-            lname.Text,             // lname (temporary)
-            Email.Text,
-            Password.Text,
-            ConfirmPassword.Text
-        );
-
-        var json = JsonDocument.Parse(response);
-        int status = json.RootElement.GetProperty("status").GetInt32();
-        string message = json.RootElement.GetProperty("message").GetString();
-
-        if (status == 200)
+        try
         {
-            await DisplayAlert("Success", message, "OK");
-            await Navigation.PopAsync();
+            var api = new ApiService();
+
+            // NOTE: Your API requires first_name and last_name
+            var response = await api.SignUp(
+                fname.Text,      // fname
+                lname.Text,             // lname (temporary)
+                Email.Text,
+                Password.Text,
+                ConfirmPassword.Text
+            );
+
+            var json = JsonDocument.Parse(response);
+            int status = json.RootElement.GetProperty("status").GetInt32();
+            string message = json.RootElement.GetProperty("message").GetString();
+
+            if (status == 200)
+            {
+                await DisplayAlert("Success", message, "OK");
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                await DisplayAlert("Error", message, "OK");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            await DisplayAlert("Error", message, "OK");
+            await DisplayAlert("Error", ex.Message, "OK");
         }
+
     }
 
-    private async void SignIpButton_Clicked(object sender, EventArgs e)
+    private async void SignInButton_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();
     }
