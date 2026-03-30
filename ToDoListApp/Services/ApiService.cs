@@ -46,7 +46,7 @@ namespace ToDoListApp.Services
             var url = $"{BaseUrl}/signin_action.php?email={email}&password={password}";
             var response = await _httpClient.GetAsync(url);
             var result = await response.Content.ReadAsStringAsync();
-
+            
             return result;
         }
     }

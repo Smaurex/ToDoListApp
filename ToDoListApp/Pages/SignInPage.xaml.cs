@@ -32,6 +32,16 @@ public partial class SignInPage : ContentPage
 
             if (status == 200)
             {
+                var data = json.RootElement.GetProperty("data");
+
+                var user = new User();
+                user.Id = data.GetProperty("id").GetInt32();
+                user.FirstName = data.GetProperty("fname").GetString();
+                user.LastName = data.GetProperty("lname").GetString();
+                user.Email = data.GetProperty("email").GetString();
+
+                Session.CurrentUser = user;
+
                 await DisplayAlert("Success", "Login successful", "OK");
                 Application.Current.MainPage = new AppShell();
             }
