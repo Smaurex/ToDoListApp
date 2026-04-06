@@ -1,6 +1,7 @@
-﻿using System.Net.Http;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
+using System.Net.Http;
+using System.Collections.Generic;
 
 namespace ToDoListApp.Services
 {
@@ -48,6 +49,73 @@ namespace ToDoListApp.Services
             var result = await response.Content.ReadAsStringAsync();
             
             return result;
+        }
+
+        public async Task<string> GetTasks(string status, int userId)
+        {
+            var url = $"{BaseUrl}/getItems_action.php?status={status}&user_id={userId}";
+            var response = await _httpClient.GetAsync(url);
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<string> AddTask(string name, string desc, int userId)
+        {
+            var values = new Dictionary<string, string>
+    {
+        { "item_name", name },
+        { "item_description", desc },
+        { "user_id", userId.ToString() }
+    };
+
+            var content = new FormUrlEncodedContent(values);
+            var response = await _httpClient.PostAsync($"{BaseUrl}/addItem_action.php", content);
+
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<string> UpdateTask(int itemId, string name, string desc)
+        {
+            var values = new Dictionary<string, string>
+    {
+        { "item_id", itemId.ToString() },
+        { "item_name", name },
+        { "item_description", desc }
+    };
+
+            var content = new FormUrlEncodedContent(values);
+
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{BaseUrl}/editItem_action.php")
+            {
+                Content = content
+            };
+
+            var response = await _httpClient.SendAsync(request);
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<string> ChangeStatus(int itemId, string status)
+        {
+            var values = new Dictionary<string, string>
+    {
+        { "item_id", itemId.ToString() },
+        { "status", status }
+    };
+
+            var content = new FormUrlEncodedContent(values);
+
+            var request = new HttpRequestMessage(HttpMethod.Put, $"{BaseUrl}/statusItem_action.php")
+            {
+                Content = content
+            };
+
+            var response = await _httpClient.SendAsync(request);
+            return await response.Content.ReadAsStringAsync();
+        }
+
+        public async Task<string> DeleteTask(int itemId)
+        {
+            var response = await _httpClient.DeleteAsync($"{BaseUrl}/deleteItem_action.php?item_id={itemId}");
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }

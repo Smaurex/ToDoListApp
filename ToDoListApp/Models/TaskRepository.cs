@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using CommunityToolkit.Maui.Alerts;
+/*using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 
 //This class contains all the functions and lists
@@ -100,4 +100,4 @@ namespace ToDoListApp.Models
             }
         }
     }
-}
+}*/

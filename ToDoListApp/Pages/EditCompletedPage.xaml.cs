@@ -1,4 +1,5 @@
 using ToDoListApp.Models;
+using ToDoListApp.Services;
 
 namespace ToDoListApp.Pages;
 
@@ -18,22 +19,26 @@ public partial class EditCompletedPage : ContentPage
 
     private async void Update_Clicked(object sender, EventArgs e)
     {
-        _task.Title = Title.Text;
-        _task.Detail = Detail.Text;
+        var api = new ApiService();
 
-        TaskRepository.UpdateTask(_task.TaskId, _task);
+        await api.UpdateTask(_task.TaskId, Title.Text, Detail.Text);
+
         await Navigation.PopAsync();
     }
-    private void Incomplete_Clicked(object sender, EventArgs e)
+    private async void Incomplete_Clicked(object sender, EventArgs e)
     {
-		_task.isComplete = false;
-		TaskRepository.UpdateTask(_task.TaskId, _task);
-		Navigation.PopAsync();
+        var api = new ApiService();
+
+        await api.ChangeStatus(_task.TaskId, "active");
+
+        await Navigation.PopAsync();
     }
 
     private async void Delete_Clicked(object sender, EventArgs e)
     {
-        TaskRepository.DeleteTask(_task.TaskId);
+        var api = new ApiService();
+
+        await api.DeleteTask(_task.TaskId);
 
         await Navigation.PopAsync();
     }
