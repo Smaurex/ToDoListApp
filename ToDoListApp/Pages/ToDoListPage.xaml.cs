@@ -2,7 +2,6 @@ using System.Collections.ObjectModel;
 using System.Text.Json;
 using ToDoListApp.Models;
 using ToDoListApp.Services;
-using System.Text.Json;
 
 namespace ToDoListApp.Pages;
 
@@ -40,7 +39,11 @@ public partial class ToDoListPage : ContentPage
 
             if (status == 200)
             {
-                var data = json.RootElement.GetProperty("data");
+                if (!json.RootElement.TryGetProperty("data", out var data))
+                {
+                    taskView.ItemsSource = null;
+                    return;
+                }
 
                 var taskList = new ObservableCollection<TaskItem>();
 
@@ -56,7 +59,7 @@ public partial class ToDoListPage : ContentPage
                         Detail = task.GetProperty("item_description").GetString(),
                         Status = task.GetProperty("status").GetString(),
                         UserId = task.GetProperty("user_id").GetInt32(),
-                        TimeModified = task.GetProperty("timemodified").GetString()
+                        TimeModified = task.TryGetProperty("timemodified", out var time) ? time.GetString() : ""
                     });
                 }
 
@@ -69,7 +72,7 @@ public partial class ToDoListPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert("Error", ex.ToString(), "OK");
         }
     }
     //Navigate to the AddToDoPage when the user clicks the "Add Task" button
@@ -105,7 +108,7 @@ public partial class ToDoListPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert("Error", ex.ToString(), "OK");
         }
     }
 
@@ -126,7 +129,7 @@ public partial class ToDoListPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert("Error", ex.ToString(), "OK");
         }
     }
 }

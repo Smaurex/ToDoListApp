@@ -16,7 +16,7 @@ namespace ToDoListApp.Services
 
             _httpClient = new HttpClient(handler)
             {
-                Timeout = TimeSpan.FromSeconds(15) // ✅ Prevents infinite hang
+                Timeout = TimeSpan.FromSeconds(40) // ✅ Prevents infinite hang
             };
         }
 
@@ -61,11 +61,11 @@ namespace ToDoListApp.Services
         public async Task<string> AddTask(string name, string desc, int userId)
         {
             var values = new Dictionary<string, string>
-    {
-        { "item_name", name },
-        { "item_description", desc },
-        { "user_id", userId.ToString() }
-    };
+            {
+                { "item_name", name },
+                { "item_description", desc },
+                { "user_id", userId.ToString() }
+            };
 
             var content = new FormUrlEncodedContent(values);
             var response = await _httpClient.PostAsync($"{BaseUrl}/addItem_action.php", content);
@@ -76,11 +76,11 @@ namespace ToDoListApp.Services
         public async Task<string> UpdateTask(int itemId, string name, string desc)
         {
             var values = new Dictionary<string, string>
-    {
-        { "item_id", itemId.ToString() },
-        { "item_name", name },
-        { "item_description", desc }
-    };
+            {
+                { "item_id", itemId.ToString() },
+                { "item_name", name },
+                { "item_description", desc }
+            };
 
             var content = new FormUrlEncodedContent(values);
 
@@ -96,10 +96,10 @@ namespace ToDoListApp.Services
         public async Task<string> ChangeStatus(int itemId, string status)
         {
             var values = new Dictionary<string, string>
-    {
-        { "item_id", itemId.ToString() },
-        { "status", status }
-    };
+            {
+                { "item_id", itemId.ToString() },
+                { "status", status }
+            };
 
             var content = new FormUrlEncodedContent(values);
 

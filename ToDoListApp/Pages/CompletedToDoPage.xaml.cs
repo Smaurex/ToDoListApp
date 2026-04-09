@@ -21,14 +21,47 @@ public partial class CompletedToDoPage : ContentPage
     //this function will load the tasks from the TaskRepository and display them in the list view
     private async Task LoadCompletedTasks()
     {
-        var api = new ApiService();
-        var response = await api.GetTasks("inactive", Session.CurrentUser.Id);
-
-        var json = JsonDocument.Parse(response);
-
-        if (json.RootElement.GetProperty("status").GetInt32() == 200)
+        try
         {
-            var data = json.RootElement.GetProperty("data");
+            if (Session.CurrentUser == null)
+            {
+                await DisplayAlert("Error", "User not logged in", "OK");
+                return;
+            }
+
+            var api = new ApiService();
+            var response = await api.GetTasks("inactive", Session.CurrentUser.Id);
+
+            var json = JsonDocument.Parse(response);
+
+            // ✅ Check status exists
+            if (!json.RootElement.TryGetProperty("status", out var statusProp))
+            {
+                await DisplayAlert("Error", "Invalid response from server", "OK");
+                return;
+            }
+
+            int status = statusProp.GetInt32();
+
+            if (status != 200)
+            {
+                await DisplayAlert("Error", "Failed to load completed tasks", "OK");
+                return;
+            }
+
+            // ✅ Check if data exists
+            if (!json.RootElement.TryGetProperty("data", out var data))
+            {
+                taskView.ItemsSource = null;
+                return;
+            }
+
+            // ✅ Handle null data
+            if (data.ValueKind == JsonValueKind.Null)
+            {
+                taskView.ItemsSource = null;
+                return;
+            }
 
             var list = new ObservableCollection<TaskItem>();
 
@@ -39,15 +72,26 @@ public partial class CompletedToDoPage : ContentPage
                 list.Add(new TaskItem
                 {
                     TaskId = task.GetProperty("item_id").GetInt32(),
-                    Title = task.GetProperty("item_name").GetString(),
-                    Detail = task.GetProperty("item_description").GetString(),
-                    Status = task.GetProperty("status").GetString(),
+
+                    Title = task.GetProperty("item_name").GetString() ?? "",
+                    Detail = task.GetProperty("item_description").GetString() ?? "",
+                    Status = task.GetProperty("status").GetString() ?? "",
+
                     UserId = task.GetProperty("user_id").GetInt32(),
-                    TimeModified = task.GetProperty("timemodified").GetString()
+
+                    // ✅ Safe timemodified (prevents crash)
+                    TimeModified = task.TryGetProperty("timemodified", out var time)
+                        ? time.GetString()
+                        : ""
                 });
             }
 
             taskView.ItemsSource = list;
+        }
+        catch (Exception ex)
+        {
+            // ✅ SHOW REAL ERROR (important for debugging)
+            await DisplayAlert("Error", ex.ToString(), "OK");
         }
     }
 
@@ -62,21 +106,33 @@ public partial class CompletedToDoPage : ContentPage
         }
     }
 
-	private async void Delete_Clicked(object sender, EventArgs e)
+    private async void Delete_Clicked(object sender, EventArgs e)
     {
         try
         {
             Button button = sender as Button;
             TaskItem task = button.CommandParameter as TaskItem;
 
-            var api = new ApiService();
-            await api.DeleteTask(task.TaskId);
+            if (task == null) return;
 
-            await LoadCompletedTasks(); // refresh list
+            var api = new ApiService();
+            var response = await api.DeleteTask(task.TaskId);
+
+            var json = JsonDocument.Parse(response);
+
+            if (json.RootElement.GetProperty("status").GetInt32() == 200)
+            {
+                await LoadCompletedTasks(); // refresh
+            }
+            else
+            {
+                string message = json.RootElement.GetProperty("message").GetString();
+                await DisplayAlert("Error", message, "OK");
+            }
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert("Error", ex.ToString(), "OK");
         }
     }
 
