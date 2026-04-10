@@ -1,3 +1,4 @@
+using System.Text.Json;
 using ToDoListApp.Models;
 using ToDoListApp.Services;
 
@@ -19,11 +20,41 @@ public partial class EditCompletedPage : ContentPage
 
     private async void Update_Clicked(object sender, EventArgs e)
     {
-        var api = new ApiService();
+        try
+        {
+            var api = new ApiService();
 
-        await api.UpdateTask(_task.TaskId, Title.Text, Detail.Text);
+            var response = await api.UpdateTask(_task.TaskId, Title.Text, Detail.Text);
 
-        await Navigation.PopAsync();
+            // 🔥 SHOW RAW RESPONSE FIRST
+            await DisplayAlert("DEBUG RESPONSE", response, "OK");
+
+            // ❗ Check if response looks like JSON
+            if (!response.Trim().StartsWith("{"))
+            {
+                await DisplayAlert("Error", "Invalid server response", "OK");
+                return;
+            }
+
+            var json = JsonDocument.Parse(response);
+
+            int status = json.RootElement.GetProperty("status").GetInt32();
+
+            if (status == 200)
+            {
+                await DisplayAlert("Success", "Task updated!", "OK");
+                await Navigation.PopAsync();
+            }
+            else
+            {
+                string message = json.RootElement.GetProperty("message").GetString();
+                await DisplayAlert("Error", message, "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("FULL ERROR", ex.ToString(), "OK");
+        }
     }
     private async void Incomplete_Clicked(object sender, EventArgs e)
     {

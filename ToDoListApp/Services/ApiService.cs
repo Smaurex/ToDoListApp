@@ -60,14 +60,16 @@ namespace ToDoListApp.Services
 
         public async Task<string> AddTask(string name, string desc, int userId)
         {
-            var values = new Dictionary<string, string>
+            var data = new
             {
-                { "item_name", name },
-                { "item_description", desc },
-                { "user_id", userId.ToString() }
+                item_name = name,
+                item_description = desc,
+                user_id = userId
             };
 
-            var content = new FormUrlEncodedContent(values);
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
             var response = await _httpClient.PostAsync($"{BaseUrl}/addItem_action.php", content);
 
             return await response.Content.ReadAsStringAsync();
@@ -84,12 +86,11 @@ namespace ToDoListApp.Services
 
             var content = new FormUrlEncodedContent(values);
 
-            var request = new HttpRequestMessage(HttpMethod.Put, $"{BaseUrl}/editItem_action.php")
-            {
-                Content = content
-            };
+            var response = await _httpClient.PostAsync(
+                $"{BaseUrl}/editItem_action.php",
+                content
+            );
 
-            var response = await _httpClient.SendAsync(request);
             return await response.Content.ReadAsStringAsync();
         }
 
