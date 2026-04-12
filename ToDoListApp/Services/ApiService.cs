@@ -16,7 +16,7 @@ namespace ToDoListApp.Services
 
             _httpClient = new HttpClient(handler)
             {
-                Timeout = TimeSpan.FromSeconds(40) // ✅ Prevents infinite hang
+                Timeout = TimeSpan.FromSeconds(25) // ✅ Prevents infinite hang
             };
         }
 
