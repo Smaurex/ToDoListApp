@@ -3,8 +3,8 @@
     x:Class="ToDoListApp.Pages.ToDoListPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="ToDo"
-    xmlns:converters="clr-namespace:ToDoListApp.Converters">
+    xmlns:converters="clr-namespace:ToDoListApp.Converters"
+    Title="ToDo">
 
     <ContentPage.Resources>
         <converters:TaskColorConverter x:Key="TaskColorConverter" />
@@ -33,7 +33,7 @@
             x:Name="username"
             Grid.Row="0"
             Grid.Column="2"
-            FontSize="30"
+            FontSize="20"
             Text="User"
             VerticalOptions="Center" />
 
@@ -41,8 +41,7 @@
             x:Name="goToAddToDoPage"
             Grid.Row="1"
             Grid.Column="3"
-            VerticalOptions="End"
-            HorizontalOptions="End"
+            Margin="0,0,40,0"
             BackgroundColor="white"
             BorderColor="black"
             BorderWidth="3"
@@ -50,11 +49,12 @@
             CornerRadius="30"
             FontSize="20"
             HeightRequest="50"
+            HorizontalOptions="End"
             Text="+"
             TextColor="Black"
-            WidthRequest="50" 
-            ZIndex="10"
-            Margin="0,0,40,0"/>
+            VerticalOptions="End"
+            WidthRequest="50"
+            ZIndex="10" />
         <!--  this is the Listview that is data bound to the observable collection  -->
         <ListView
             x:Name="taskView"
@@ -79,23 +79,23 @@
                                 <BoxView
                                     Grid.Row="0"
                                     Grid.ColumnSpan="3"
-                                    BackgroundColor="{Binding isComplete, Converter={StaticResource TaskColorConverter}}" />
+                                    BackgroundColor="Orange" />
                                 <!--  Task Title  -->
                                 <Label
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     FontAttributes="Bold"
+                                    FontSize="20"
                                     Text="{Binding Title}"
-                                    TextColor="white" 
-                                    FontSize="20"/>
+                                    TextColor="White" />
 
                                 <!--  Task Detail  -->
                                 <Label
                                     Grid.Row="1"
                                     Grid.Column="0"
+                                    FontSize="15"
                                     Text="{Binding Detail}"
-                                    TextColor="Gray"
-                                    FontSize="15"/>
+                                    TextColor="Gray" />
                                 <!--  Delete Button  -->
 
                                 <Button
@@ -121,7 +121,7 @@
                                     CommandParameter="{Binding .}"
                                     HeightRequest="55"
                                     ImageSource="check_icon_2.png"
-                                    WidthRequest="55"/>
+                                    WidthRequest="55" />
                             </Grid>
                         </Border>
                     </ViewCell>
@@ -132,4 +132,4 @@
 
     </Grid>
 </ContentPage>
-    
+
