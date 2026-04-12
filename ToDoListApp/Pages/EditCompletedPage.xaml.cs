@@ -60,7 +60,9 @@ public partial class EditCompletedPage : ContentPage
     {
         var api = new ApiService();
 
-        await api.ChangeStatus(_task.TaskId, "active");
+        var response = await api.ChangeStatus(_task.TaskId, "active");
+
+        await DisplayAlert("DEBUG", response, "OK");
 
         await Navigation.PopAsync();
     }

@@ -77,14 +77,15 @@ namespace ToDoListApp.Services
 
         public async Task<string> UpdateTask(int itemId, string name, string desc)
         {
-            var values = new Dictionary<string, string>
+            var data = new
             {
-                { "item_id", itemId.ToString() },
-                { "item_name", name },
-                { "item_description", desc }
+                item_id = itemId,
+                item_name = name,
+                item_description = desc
             };
 
-            var content = new FormUrlEncodedContent(values);
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(
                 $"{BaseUrl}/editItem_action.php",
@@ -96,20 +97,20 @@ namespace ToDoListApp.Services
 
         public async Task<string> ChangeStatus(int itemId, string status)
         {
-            var values = new Dictionary<string, string>
+            var data = new
             {
-                { "item_id", itemId.ToString() },
-                { "status", status }
+                item_id = itemId,
+                status = status
             };
 
-            var content = new FormUrlEncodedContent(values);
+            var json = JsonSerializer.Serialize(data);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var request = new HttpRequestMessage(HttpMethod.Put, $"{BaseUrl}/statusItem_action.php")
-            {
-                Content = content
-            };
+            var response = await _httpClient.PostAsync(
+                $"{BaseUrl}/statusItem_action.php",
+                content
+            );
 
-            var response = await _httpClient.SendAsync(request);
             return await response.Content.ReadAsStringAsync();
         }
 
